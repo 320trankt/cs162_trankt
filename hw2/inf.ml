@@ -34,7 +34,9 @@ let rec interleave xs ys =
 
 let fail_inf = Cons (fun () -> failwith "sth")
 
-let z = fail_inf
+let z = 
+  let listNat = (from 0) in 
+    let listNeg = map (fun (x : 'a) -> -1 * x) listNat in interleave listNat listNeg
 
 let product xs ys =
   failwith "Your code here"
