@@ -19,20 +19,22 @@ let rec map f xs =
 
 let rec repeat x = 
   Cons (fun () -> (x, repeat x))
-
-let fib =
-  Cons (fun () -> (0, 1, fib ))
+                      
+let fib =  
+  let rec fibHelper (n : int) (m : int) = Cons (fun () -> (n, (fibHelper m (n+m)) ))
+  in fibHelper 0 1
 
 let rec firstn n xs =
-  failwith "Your code here"
+  match n, xs with
+  | 0, l -> []
+  | x, l -> (hd l)::(firstn (x-1) (tl l))
 
 let rec interleave xs ys =
-  Cons (fun () -> match xs, ys with
-      | xsh::xst, ysh::yst -> (xsh, interleave ys xst))
+  Cons (fun () -> (hd xs, interleave ys (tl xs)))
 
+let fail_inf = Cons (fun () -> failwith "sth")
 
-let z =
-  failwith "Your code here"
+let z = fail_inf
 
 let product xs ys =
   failwith "Your code here"
