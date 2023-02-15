@@ -1,9 +1,9 @@
-# dune exec -- ./test.exe --show-errors
+# dune exec -- ./repl.exe
 # OCAMLPARAM: unset
 # Shared cache: disabled
 # Workspace root: /mnt/c/Users/320tr/Code/cs162_trankt/hw3
 # Auto-detected concurrency: 16
-$ /usr/bin/ocamlc.opt -config > /tmp/dune_de98a5_output
+$ /usr/bin/ocamlc.opt -config > /tmp/dune_4ac599_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -151,3 +151,4 @@ $ /usr/bin/ocamlc.opt -config > /tmp/dune_de98a5_output
 #      ; windows_unicode = false
 #      }
 #  }
+$ (cd _build/default && /usr/bin/bash -c 'echo let date = \"unknown\" > build_metadata.ml')

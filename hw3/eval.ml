@@ -70,11 +70,11 @@ let rec eval (e : expr) : expr =
         | _, _ -> im_stuck "Less Than Error"
       )
       | And -> (match eval e1, eval e2 with
-        | NumLit x, NumLit y -> if (x > 0 && y > 0) then NumLit 1 else NumLit 0
+        | NumLit x, NumLit y -> if (x <> 0 && y <> 0) then NumLit 1 else NumLit 0
         | _, _ -> im_stuck "And Error"
       )
       | Or -> (match eval e1, eval e2 with
-        | NumLit x, NumLit y -> if (x > 0 || y > 0) then NumLit 1 else NumLit 0
+        | NumLit x, NumLit y -> if (x <> 0 || y <> 0) then NumLit 1 else NumLit 0
         | _, _ -> im_stuck "Or Error"
       )
       | Eq -> (match eval e1, eval e2 with
@@ -83,17 +83,11 @@ let rec eval (e : expr) : expr =
       )
     )
     | IfThenElse (e1, e2, e3) -> (match eval e1 with
-      | NumLit x -> if x > 0 then eval e2 else eval e3
+      | NumLit x -> if x <> 0 then eval e2 else eval e3
       | _ -> im_stuck "IfThenElse error"
     )
     | ListNil -> ListNil
-    | ListCons (e1, e2) -> (match eval e1, eval e2 with
-      | NumLit x, ListNil -> ListCons(eval e1, ListNil)
-      | NumLit x, ListCons(h, t) -> ListCons(NumLit x, ListCons (h, t))
-      | ListNil, ListCons(h, t) -> ListCons(ListNil, ListCons(h, t))
-      | ListNil, ListNil -> ListCons(ListNil, ListNil)
-      | _,_ -> im_stuck "ListCons Error"
-    )
+    | ListCons (e1, e2) -> ListCons(eval e1, eval e2)
     | ListHead e -> (match eval e with
       | ListCons (h, t) -> eval h
       | _ -> im_stuck "ListHead error"

@@ -42,5 +42,47 @@ run "lambda-plus" [
   ];
   "stuck", [
     test_stuck "1 > Nil" ;
+  ];
+  "Add", [
+    test_e "5" (Binop(NumLit(3), Add, NumLit(2)) ) ;
+  ];
+  "Sub", [
+    test_e "5" (Binop(NumLit(7), Sub, NumLit(2))) ;
+  ];
+  "Mul", [
+    test_e "15" (Binop(NumLit(3), Mul, NumLit(5))) ;
+  ];
+  "Gt", [
+    test_e "1" (Binop(NumLit(3), Gt, NumLit(2))) ;
+  ];
+  "Lt", [
+    test_e "1" (Binop(NumLit(3), Lt, NumLit(4))) ;
+  ];
+  "And", [
+    test_e "1" (Binop(Binop(NumLit(3), Gt, NumLit(2)), And, Binop(NumLit(3), Lt, NumLit(4)))) ;
+  ];
+  "Or", [
+    test_e "1" (Binop(Binop(NumLit(1), Gt, NumLit(2)), Or, Binop(NumLit(3), Lt, NumLit(4)))) ;
+  ];
+  "Eq", [
+    test_e "1" (Binop(NumLit(3), Eq, Binop(NumLit(1), Add, NumLit(2)))) ;
+  ];
+  "IfThenElse", [
+    test_e "5" (IfThenElse( Binop(NumLit(3), Eq, Binop(NumLit(1), Add, NumLit(2))) , Binop(NumLit(2), Add, NumLit(3))  , Binop(NumLit(2), Sub, NumLit(3))  )) ;
+  ];
+  "ListNil", [
+    test_e "Nil" (ListNil) ;
+  ];
+  "ListCons", [
+    test_e "Nil@1@2@Nil" (ListCons(ListNil, ListCons(NumLit(1), ListCons(NumLit(2),ListNil)))) ;
+  ];
+  "ListHead", [
+    test_e "5" (ListHead(ListCons(NumLit(5), ListCons(1, ListCons(2, ListNil))))) ;
+  ];
+  "ListTail", [
+    test_e "1@2@Nil" (ListTail(ListCons(NumLit(5), ListCons(1, ListCons(2, ListNil))))) ;
+  ];
+  "ListIsNil", [
+    test_e "1" (ListNil) ;
   ]
 ]
