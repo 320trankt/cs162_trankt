@@ -35,7 +35,7 @@ let rec free_vars (e : expr) : VarSet.t =
   | LetBind(x, e1, e2) -> VarSet.remove x  (free_vars e2)
   | NumLit n -> VarSet.empty
   | Binop (e1, op, e2) -> VarSet.union (free_vars e1) (free_vars e2)
-  | IfThenElse (e1, e2, e3) -> VarSet.union(VarSet.union(free_vars e2) (free_vars e3)) (free_vars e3)
+  | IfThenElse (e1, e2, e3) -> VarSet.union(VarSet.union(free_vars e1) (free_vars e2)) (free_vars e3)
   | _ -> im_stuck "Free_vars error"
 
 (** Performs the substitution [x -> e1]e2 *)
