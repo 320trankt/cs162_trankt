@@ -28,11 +28,21 @@ let assert_value e =
 
 (** Computes the set of free variables in the given expression *)
 let rec free_vars (e : expr) : VarSet.t =
-  failwith "TODO: homework" ;;
+  match e with
+  | Var x -> VarSet.singleton(x)
+  | Lambda (x, e) -> VarSet.remove(x, free_vars e)
+  | App (e1, e2) -> VarSet.union(free_vars e1, free_vars e2)
+  | LetBind(x, e1, e2) -> VarSet.remove(x, free_vars e2)
+  | NumLit n -> VarSet.empty
+  | Binop (e1, op, e2) -> VarSet.union(free_vars e1, free_vars e2)
+  | IfThenElse (e1, e2, e3) -> VarSet.union(VarSet.union(free_vars e1, free_vars e2), free_vars e3)
+  | _ -> im_stuck "Free_vars error"
 
 (** Performs the substitution [x -> e1]e2 *)
 let rec subst (x : string) (e1 : expr) (e2 : expr) : expr =
-  failwith "TODO: homework" ;;
+  match e2 with
+  | Var s -> if s = Var(x) then Var(x) else s
+  | Lambda(x, e) -> Lambda(x, subst x e1 e)
 
 (** Evaluates e. You need to copy over your
    implementation of homework 3. *)
@@ -40,7 +50,13 @@ let rec subst (x : string) (e1 : expr) (e2 : expr) : expr =
     try
       match e with
       (* Things you need to implement *)
+      (* Values *)
       | NumLit n -> NumLit n
+      | Lambda (x, e) -> Lambda (x, e)
+      | ListNil -> ListNil
+      | ListCons (e1, e2) -> ListCons(eval e1, eval e2)
+      (* Expressions *)
+      (* HW3 *)
       | Binop (e1, op, e2) -> (match op with
         | Add -> ( match eval e1, eval e2 with
           | NumLit 0, NumLit 0 -> eval (NumLit 0)
@@ -95,7 +111,6 @@ let rec subst (x : string) (e1 : expr) (e2 : expr) : expr =
         | NumLit x -> if x <> 0 then eval e2 else eval e3
         | _ -> im_stuck "IfThenElse error"
       )
-      | ListNil -> ListNil
       | ListCons (e1, e2) -> ListCons(eval e1, eval e2)
       | ListHead e -> (match eval e with
         | ListCons (h, t) -> eval h
@@ -110,8 +125,13 @@ let rec subst (x : string) (e1 : expr) (e2 : expr) : expr =
         | ListCons(h, t) -> NumLit 0
         | _ -> im_stuck "ListIsNil error"
       )
-      (* Things you don't need to implement in this assignment *)
-      | _ -> hw4 ()
+      (* HW4 *)
+      | Var s -> im_stuck "Free Variable Error"
+      | App (e1, e2) -> (match eval e1 with
+        | Lambda (x, e1) -> subst x e2 e1
+        | _ -> im_stuck "App Error"
+
+      )
     with
     | Stuck msg -> im_stuck (msg ^ "\nin expression " ^ string_of_expr e)
   ;;
