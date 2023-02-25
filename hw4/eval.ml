@@ -141,7 +141,7 @@ let rec subst (x : string) (e1 : expr) (e2 : expr) : expr =
         | _ -> im_stuck "App Error"
 
       )
-      | LetBind (s, e1, e2) -> ( subst s (eval e1) e2
+      | LetBind (s, e1, e2) -> eval (subst s (eval e1) e2)
 
       )
       | _ -> im_stuck "Unaccounted case so far"
