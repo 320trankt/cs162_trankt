@@ -38,20 +38,32 @@ let rec free_vars (e : expr) : VarSet.t =
   | IfThenElse (e1, e2, e3) -> VarSet.union(VarSet.union(free_vars e2) (free_vars e3)) (free_vars e3)
   | _ -> im_stuck "Free_vars error"
 
+
+
+let rec rename (x : string) (e : expr) : expr =
+  match e with
+  | Var s -> if x = s then Var( x ^ (string_of_int 0)) else Var (s)
+  | Lambda(xn, en) -> if x = xn then rename x (Lambda (x, en)) else Lambda (xn, en)
+  | App (t1, t2) -> App (rename x t1, rename x t2)
+  | Binop (e1, op, e2) -> Binop (rename x e1, op, rename x e2)
+  | NumLit n -> NumLit n
+  | IfThenElse (e1, e2, e3) -> IfThenElse(rename x e1, rename x e2, rename x e3)
+  | LetBind(s, e1, e2) -> if x = s then LetBind(x ^ string_of_int 0, rename x e1, rename x e2) else LetBind(s, rename x e1, rename x e2)
+  | _ -> im_stuck "rename failure"
+
+
 (** Performs the substitution [x -> e1]e2 *)
 let rec subst (x : string) (e1 : expr) (e2 : expr) : expr =
   match e2 with
   | Var s -> if s = x then e1 else Var(s)
-  | Lambda(e2x, e2e) -> (* let rec findVarHelper (xn : string) (en : expr) : string = 
-      match xn with 
-      | Var xn -> Var xn
-    in
-    if x = e2x then Lambda () else *) Lambda(e2x, subst x e1 e2e)
-  | App (t1, t2) -> App(subst x e1 t1 , subst x e1 t2) 
+  | Lambda(e2x, e2e) -> (* (if x = e2x then let e2r = rename e2x e2e in if VarSet.mem x (free_vars e2) then Lambda(e2x, subst x e1 e2r) else Lambda(e2x, e2r)
+  else *)
+    if VarSet.mem x (free_vars e2) then Lambda(e2x, subst x e1 e2e) else Lambda(e2x, e2e)(*)*)
+  | App (t1, t2) -> if VarSet.mem x (free_vars e2) then App(subst x e1 t1 , subst x e1 t2) else App (t1, t2)
   | Binop (e2e1, op, e2e2) -> if VarSet.mem x (free_vars e2) then Binop (subst x e1 e2e1, op, subst x e1 e2e2) else Binop (e2e1, op, e2e2)
   | NumLit n -> NumLit n
-  | IfThenElse (e2e1, e2e2, e2e3) -> im_stuck "Haven't implemented ifthenelse yet"
-  | LetBind (e2s, e2e1, e2e2)-> im_stuck "Haven't implemented letbind yet"
+  | IfThenElse (e2e1, e2e2, e2e3) -> if VarSet.mem x (free_vars e2) then IfThenElse(subst x e1 e2e1, subst x e1 e2e2, subst x e1 e2e3) else IfThenElse (e2e1, e2e2, e2e3)
+  | LetBind (e2s, e2e1, e2e2)-> if VarSet.mem x (free_vars e2) then LetBind (e2s, subst x e1 e2e1, subst x e1 e2e2) else LetBind (e2s, e2e1, e2e2)
   | _ -> im_stuck "Subst Failure case not checked yet"
 
 (** Evaluates e. You need to copy over your
@@ -137,12 +149,14 @@ let rec subst (x : string) (e1 : expr) (e2 : expr) : expr =
       (* HW4 *)
       | Var s -> im_stuck "Free Variable Error"
       | App (e1, e2) -> (match eval e1 with
-        | Lambda (x, e1) -> eval (subst x e2 e1)
+        | Lambda (x, e1') -> eval (subst x (eval e2) e1')
         | _ -> im_stuck "App Error"
 
       )
-      | LetBind (s, e1, e2) -> eval (subst s (eval e1) e2)
-
+      | LetBind (x, e1, e2) -> eval (subst x (eval e1) e2)
+      | Fix e -> (match eval e with
+        | Lambda (f, e') -> subst f (Fix (Lambda (f, e'))) e'
+        | _ -> im_stuck "Fix error"
       )
       | _ -> im_stuck "Unaccounted case so far"
     with
