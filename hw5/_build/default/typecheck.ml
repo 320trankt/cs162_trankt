@@ -11,7 +11,7 @@ let rec typecheck (env : env) (e : expr) : typ =
   try
   match e with
   | NumLit n -> TInt
-  | ListNil None -> TList None t
+  | ListNil None -> TList TInt
   | ListCons (e1, e2) -> (match typecheck env e1, typecheck env e2 with
     | TInt, TList t -> TList t
     | TList t1, TList t2 -> TList t2
