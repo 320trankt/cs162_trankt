@@ -55,11 +55,11 @@ let rec rename (x : string) (e : expr) : expr =
 (** Performs the substitution [x -> e1]e2 *)
 let rec subst (x : string) (e1 : expr) (e2 : expr) : expr =
   match e2 with
-  | Var s -> if s = x then e1 else Var(s)
-  | Lambda(e2x, e2e) -> (* (if x = e2x then let e2r = rename e2x e2e in if VarSet.mem x (free_vars e2) then Lambda(e2x, subst x e1 e2r) else Lambda(e2x, e2r)
+  | Var y -> if y = x then e1 else Var(y)
+  | Lambda(y, t1) -> (* (if x = e2x then let e2r = rename e2x e2e in if VarSet.mem x (free_vars e2) then Lambda(e2x, subst x e1 e2r) else Lambda(e2x, e2r)
   else *)
-    if VarSet.mem x (free_vars e2) then Lambda(e2x, subst x e1 e2e) else Lambda(e2x, e2e)(*)*)
-  | App (t1, t2) -> if VarSet.mem x (free_vars e2) then App(subst x e1 t1 , subst x e1 t2) else App (t1, t2)
+    if ((VarSet.mem y (free_vars e1)) || (x = y)) then Lambda(y, t1) else Lambda(y, subst x e1 t1)(*)*)
+  | App (t1, t2) -> App(subst x e1 t1 , subst x e1 t2)
   | Binop (e2e1, op, e2e2) -> if VarSet.mem x (free_vars e2) then Binop (subst x e1 e2e1, op, subst x e1 e2e2) else Binop (e2e1, op, e2e2)
   | NumLit n -> NumLit n
   | IfThenElse (e2e1, e2e2, e2e3) -> if VarSet.mem x (free_vars e2) then IfThenElse(subst x e1 e2e1, subst x e1 e2e2, subst x e1 e2e3) else IfThenElse (e2e1, e2e2, e2e3)

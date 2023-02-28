@@ -35,30 +35,24 @@ let rec eval (e : expr) : expr =
     | Binop (e1, op, e2) -> (match op with
       | Add -> ( match eval e1, eval e2 with
         | NumLit 0, NumLit 0 -> eval (NumLit 0)
-        | NumLit 0, NumLit x -> eval e2
-        | NumLit x, NumLit 0 -> eval e1
+        | NumLit 0, NumLit _ -> eval e2
+        | NumLit _, NumLit 0 -> eval e1
         | NumLit x, NumLit y -> eval (NumLit (x + y))
-        | NumLit x, _ -> im_stuck "Addition failure"
-        | _, NumLit y -> im_stuck "Addition failure"
         | _, _ -> im_stuck "Addition failure"
       )
       | Sub -> (match eval e1, eval e2 with
         | NumLit 0, NumLit 0 -> eval (NumLit 0)
-        | NumLit 0, NumLit x -> eval e2
-        | NumLit x, NumLit 0 -> eval e1
+        | NumLit 0, NumLit _ -> eval e2
+        | NumLit _, NumLit 0 -> eval e1
         | NumLit x, NumLit y -> eval (NumLit (x - y))
-        | NumLit x, _ -> im_stuck "Subtraction failure"
-        | _, NumLit y -> im_stuck "Subtraction failure"
         | _, _ -> im_stuck "Subtraction failure"
       )
       | Mul -> (match eval e1, eval e2 with
-        | NumLit 0, NumLit x -> eval (NumLit 0)
-        | NumLit x, NumLit 0 -> eval (NumLit 0)
-        | NumLit 1, NumLit x -> eval e2
-        | NumLit x, NumLit 1 -> eval e1
+        | NumLit 0, NumLit _ -> eval (NumLit 0)
+        | NumLit _, NumLit 0 -> eval (NumLit 0)
+        | NumLit 1, NumLit _ -> eval e2
+        | NumLit _, NumLit 1 -> eval e1
         | NumLit x, NumLit y -> eval (NumLit (x*y))
-        | NumLit x, _ -> im_stuck "Multiplication failure"
-        | _, NumLit y -> im_stuck "Multiplication failure"
         | _, _ -> im_stuck "Multiplication failure"
       )
       | Gt -> (match eval e1, eval e2 with
@@ -89,16 +83,16 @@ let rec eval (e : expr) : expr =
     | ListNil -> ListNil
     | ListCons (e1, e2) -> ListCons(eval e1, eval e2)
     | ListHead e -> (match eval e with
-      | ListCons (h, t) -> eval h
+      | ListCons (h, _) -> eval h
       | _ -> im_stuck "ListHead error"
     )
     | ListTail e -> (match eval e with
-        | ListCons(h, t) -> eval t
+        | ListCons(_, t) -> eval t
         | _ -> im_stuck "ListTail error"
     )
     | ListIsNil e -> (match eval e with
       | ListNil -> NumLit 1
-      | ListCons(h, t) -> NumLit 0
+      | ListCons(_, _) -> NumLit 0
       | _ -> im_stuck "ListIsNil error"
     )
     (* Things you don't need to implement in this assignment *)
