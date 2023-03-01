@@ -1,9 +1,9 @@
 # dune build repl.exe
 # OCAMLPARAM: unset
 # Shared cache: disabled
-# Workspace root: /mnt/d/coding/cs162_trankt/hw5
+# Workspace root: /mnt/c/Users/320tr/Code/cs162_trankt/hw5
 # Auto-detected concurrency: 16
-$ /home/meispeach/.opam/cs162/bin/ocamlc.opt -config > /tmp/dune_07edaf_output
+$ /usr/bin/ocamlc.opt -config > /tmp/dune_b823f0_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -11,76 +11,115 @@ $ /home/meispeach/.opam/cs162/bin/ocamlc.opt -config > /tmp/dune_07edaf_output
 #  ; merlin = true
 #  ; for_host = None
 #  ; fdo_target_exe = None
-#  ; build_dir = In_build_dir "default"
-#  ; toplevel_path = None
-#  ; ocaml_bin = External "/home/meispeach/.opam/cs162/bin"
-#  ; ocaml = Ok External "/home/meispeach/.opam/cs162/bin/ocaml"
-#  ; ocamlc = External "/home/meispeach/.opam/cs162/bin/ocamlc.opt"
-#  ; ocamlopt = Ok External "/home/meispeach/.opam/cs162/bin/ocamlopt.opt"
-#  ; ocamldep = Ok External "/home/meispeach/.opam/cs162/bin/ocamldep.opt"
-#  ; ocamlmklib = Ok External "/home/meispeach/.opam/cs162/bin/ocamlmklib.opt"
+#  ; build_dir = "default"
+#  ; toplevel_path = Some External "/home/trankt/.opam/default/lib/toplevel"
+#  ; ocaml_bin = External "/usr/bin"
+#  ; ocaml = Ok External "/home/trankt/.opam/default/bin/ocaml"
+#  ; ocamlc = External "/usr/bin/ocamlc.opt"
+#  ; ocamlopt = Ok External "/usr/bin/ocamlopt.opt"
+#  ; ocamldep = Ok External "/usr/bin/ocamldep.opt"
+#  ; ocamlmklib = Ok External "/usr/bin/ocamlmklib.opt"
 #  ; env =
 #      map
-#        { "CAML_LD_LIBRARY_PATH" :
-#            "/mnt/d/coding/cs162_trankt/hw5/_build/install/default/lib/stublibs"
-#        ; "DUNE_OCAML_HARDCODED" : "/home/meispeach/.opam/cs162/lib"
-#        ; "DUNE_OCAML_STDLIB" : "/home/meispeach/.opam/cs162/lib/ocaml"
-#        ; "DUNE_SOURCEROOT" : "/mnt/d/coding/cs162_trankt/hw5"
-#        ; "INSIDE_DUNE" : "/mnt/d/coding/cs162_trankt/hw5/_build/default"
+#        { "DUNE_OCAML_HARDCODED" : "/home/trankt/.opam/default/lib"
+#        ; "DUNE_OCAML_STDLIB" : "/usr/lib/ocaml"
+#        ; "DUNE_SOURCEROOT" : "/mnt/c/Users/320tr/Code/cs162_trankt/hw5"
+#        ; "INSIDE_DUNE" :
+#            "/mnt/c/Users/320tr/Code/cs162_trankt/hw5/_build/default"
 #        ; "OCAMLFIND_IGNORE_DUPS_IN" :
-#            "/mnt/d/coding/cs162_trankt/hw5/_build/install/default/lib"
+#            "/mnt/c/Users/320tr/Code/cs162_trankt/hw5/_build/install/default/lib"
 #        ; "OCAMLPATH" :
-#            "/mnt/d/coding/cs162_trankt/hw5/_build/install/default/lib"
+#            "/mnt/c/Users/320tr/Code/cs162_trankt/hw5/_build/install/default/lib"
 #        ; "OCAMLTOP_INCLUDE_PATH" :
-#            "/mnt/d/coding/cs162_trankt/hw5/_build/install/default/lib/toplevel"
+#            "/mnt/c/Users/320tr/Code/cs162_trankt/hw5/_build/install/default/lib/toplevel"
 #        ; "OCAML_COLOR" : "always"
 #        ; "OPAMCOLOR" : "always"
 #        }
-#  ; findlib_paths = [ External "/home/meispeach/.opam/cs162/lib" ]
+#  ; findlib_paths = [ External "/home/trankt/.opam/default/lib" ]
 #  ; arch_sixtyfour = true
 #  ; natdynlink_supported = true
 #  ; supports_shared_libraries = true
 #  ; ocaml_config =
 #      { version = "4.13.1"
-#      ; standard_library_default = "/home/meispeach/.opam/cs162/lib/ocaml"
-#      ; standard_library = "/home/meispeach/.opam/cs162/lib/ocaml"
+#      ; standard_library_default = "/usr/lib/ocaml"
+#      ; standard_library = "/usr/lib/ocaml"
 #      ; standard_runtime = "the_standard_runtime_variable_was_deleted"
 #      ; ccomp_type = "cc"
-#      ; c_compiler = "gcc"
+#      ; c_compiler = "x86_64-linux-gnu-gcc"
 #      ; ocamlc_cflags =
-#          [ "-O2"; "-fno-strict-aliasing"; "-fwrapv"; "-pthread"; "-fPIC" ]
-#      ; ocamlc_cppflags = [ "-D_FILE_OFFSET_BITS=64" ]
+#          [ "-O2"
+#          ; "-fno-strict-aliasing"
+#          ; "-fwrapv"
+#          ; "-pthread"
+#          ; "-fPIC"
+#          ; "-g"
+#          ; "-O2"
+#          ; "-ffile-prefix-map=/build/ocaml-SC7b9w/ocaml-4.13.1=."
+#          ; "-fstack-protector-strong"
+#          ; "-Wformat"
+#          ; "-Werror=format-security"
+#          ]
+#      ; ocamlc_cppflags =
+#          [ "-D_FILE_OFFSET_BITS=64"; "-Wdate-time"; "-D_FORTIFY_SOURCE=2" ]
 #      ; ocamlopt_cflags =
-#          [ "-O2"; "-fno-strict-aliasing"; "-fwrapv"; "-pthread"; "-fPIC" ]
-#      ; ocamlopt_cppflags = [ "-D_FILE_OFFSET_BITS=64" ]
+#          [ "-O2"
+#          ; "-fno-strict-aliasing"
+#          ; "-fwrapv"
+#          ; "-pthread"
+#          ; "-fPIC"
+#          ; "-g"
+#          ; "-O2"
+#          ; "-ffile-prefix-map=/build/ocaml-SC7b9w/ocaml-4.13.1=."
+#          ; "-fstack-protector-strong"
+#          ; "-Wformat"
+#          ; "-Werror=format-security"
+#          ]
+#      ; ocamlopt_cppflags =
+#          [ "-D_FILE_OFFSET_BITS=64"; "-Wdate-time"; "-D_FORTIFY_SOURCE=2" ]
 #      ; bytecomp_c_compiler =
-#          [ "gcc"
+#          [ "x86_64-linux-gnu-gcc"
 #          ; "-O2"
 #          ; "-fno-strict-aliasing"
 #          ; "-fwrapv"
 #          ; "-pthread"
 #          ; "-fPIC"
+#          ; "-g"
+#          ; "-O2"
+#          ; "-ffile-prefix-map=/build/ocaml-SC7b9w/ocaml-4.13.1=."
+#          ; "-fstack-protector-strong"
+#          ; "-Wformat"
+#          ; "-Werror=format-security"
 #          ; "-D_FILE_OFFSET_BITS=64"
+#          ; "-Wdate-time"
+#          ; "-D_FORTIFY_SOURCE=2"
 #          ]
-#      ; bytecomp_c_libraries = [ "-lm"; "-ldl"; "-lpthread" ]
+#      ; bytecomp_c_libraries = [ "-lm"; "-lpthread" ]
 #      ; native_c_compiler =
-#          [ "gcc"
+#          [ "x86_64-linux-gnu-gcc"
 #          ; "-O2"
 #          ; "-fno-strict-aliasing"
 #          ; "-fwrapv"
 #          ; "-pthread"
 #          ; "-fPIC"
+#          ; "-g"
+#          ; "-O2"
+#          ; "-ffile-prefix-map=/build/ocaml-SC7b9w/ocaml-4.13.1=."
+#          ; "-fstack-protector-strong"
+#          ; "-Wformat"
+#          ; "-Werror=format-security"
 #          ; "-D_FILE_OFFSET_BITS=64"
+#          ; "-Wdate-time"
+#          ; "-D_FORTIFY_SOURCE=2"
 #          ]
-#      ; native_c_libraries = [ "-lm"; "-ldl" ]
-#      ; native_pack_linker = [ "ld"; "-r"; "-o" ]
+#      ; native_c_libraries = [ "-lm" ]
+#      ; native_pack_linker = [ "x86_64-linux-gnu-ld"; "-r"; "-o" ]
 #      ; cc_profile = []
 #      ; architecture = "amd64"
 #      ; model = "default"
 #      ; int_size = 63
 #      ; word_size = 64
 #      ; system = "linux"
-#      ; asm = [ "as" ]
+#      ; asm = [ "x86_64-linux-gnu-as" ]
 #      ; asm_cfi_supported = true
 #      ; with_frame_pointers = false
 #      ; ext_exe = ""
@@ -112,20 +151,12 @@ $ /home/meispeach/.opam/cs162/bin/ocamlc.opt -config > /tmp/dune_07edaf_output
 #      ; windows_unicode = false
 #      }
 #  }
-$ (cd _build/default && /home/meispeach/.opam/cs162/bin/ocamldep.opt -modules -impl typecheck.ml) > _build/default/.lamp.objs/typecheck.impl.d
-$ (cd _build/default && /home/meispeach/.opam/cs162/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -bin-annot -I .lamp.objs/byte -no-alias-deps -opaque -o .lamp.objs/byte/typecheck.cmo -c -impl typecheck.ml)
-> File "typecheck.ml", lines 15-18, characters 25-3:
-> 15 | .........................(match typecheck env e1, typecheck env e2 with
-> 16 |     | TInt, TList t -> TList t
-> 17 |     | TList t1, TList t2 -> TList t2
-> 18 |   )
-> Warning 8 [partial-match]: this pattern-matching is not exhaustive.
-> Here is an example of a case that is not matched:
-> (TInt, (TInt|TFun (_, _)))
-> File "typecheck.ml", line 30, characters 17-21:
-> 30 |     | TInt -> if eval e1 then typecheck env e2 else typecheck env e3 
->                       ^^^^
-> Error: Unbound value eval
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl typecheck.ml) > _build/default/.lamp.objs/typecheck.ml.d
+$ (cd _build/default && /usr/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -bin-annot -I .lamp.objs/byte -no-alias-deps -opaque -o .lamp.objs/byte/typecheck.cmo -c -impl typecheck.ml)
+> File "typecheck.ml", line 34, characters 24-31:
+> 34 |   | Lambda (x, t, e) -> Map.add x t env ; typecheck env e
+>                              ^^^^^^^
+> Error: Unbound value Map.add
 [2]
 $ (cd _build/default && /usr/bin/bash -c 'echo let date = \"$(date)\" > build_metadata.ml')
-$ (cd _build/default && /home/meispeach/.opam/cs162/bin/ocamldep.opt -modules -impl build_metadata.ml) > _build/default/.repl.eobjs/dune__exe__Build_metadata.impl.d
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl build_metadata.ml) > _build/default/.repl.eobjs/build_metadata.ml.d

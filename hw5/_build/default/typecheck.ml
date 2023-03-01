@@ -11,10 +11,10 @@ let rec typecheck (env : env) (e : expr) : typ =
   try
   match e with
   | NumLit n -> TInt
-  | ListNil None -> TList TInt
+  | ListNil Some t -> TList t
   | ListCons (e1, e2) -> (match typecheck env e1, typecheck env e2 with
-    | TInt, TList t -> TList t
-    | TList t1, TList t2 -> TList t2
+    | t, TList t1 -> TList t1
+    | _,_ -> ty_err "Invalid Types for ListCons"
   )
   | Binop (e1, op, e2) -> (match op with
     | Eq -> (match typecheck env e1, typecheck env e2 with
@@ -27,19 +27,15 @@ let rec typecheck (env : env) (e : expr) : typ =
     )
   )
   | IfThenElse (e1, e2, e3) -> (match typecheck env e1 with
-    | TInt -> if eval e1 then typecheck env e2 else typecheck env e3 
+    | TInt -> typecheck env e2 
     | _ -> ty_err "Invalid type for IfThenElse"
   )
-  | Var s -> todo()
-  | Lambda (s, x, e) -> todo()
-  | App (e1, e2) -> todo()
-  | Fix e -> todo()
+  | Var x -> todo()(*if Map.Mem x env then x else ty_err "Unbound variable type error"*)
+  | Lambda (x, t, e) -> Map.add x t env ; typecheck env e
+  | App (e1, e2) -> typecheck env e1
+  | Fix e -> typecheck env e
   | ListHead e -> (match typecheck env e with
-    | TList t -> ( match typecheck env t with
-      | TInt -> TInt
-      | TList t' -> TList t'
-      | _ -> ty_err "Invalid type for listHead"
-    )
+    | TList t -> t
     | _ -> ty_err "Invalid type for listHead"
   )
   | ListTail e -> (match typecheck env e with
@@ -50,6 +46,7 @@ let rec typecheck (env : env) (e : expr) : typ =
     | TList t -> TInt
     | _ -> ty_err "Invalid type for ListIsNil"
   )
+  | LetBind (x, t1, e1, e2) -> Map.add x x env 
   | _ -> todo ()
   with
   | Type_error msg -> ty_err (msg ^ "\nin expression " ^ string_of_expr e)
